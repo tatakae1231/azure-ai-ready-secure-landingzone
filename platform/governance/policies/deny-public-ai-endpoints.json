@@ -1,0 +1,22 @@
+{
+  "mode": "Indexed",
+  "policyRule": {
+    "if": {
+      "field": "type",
+      "in": [
+        "Microsoft.CognitiveServices/accounts",
+        "Microsoft.Search/searchServices"
+      ]
+    },
+    "then": {
+      "effect": "Deny",
+      "details": {
+        "evaluation": {
+          "field": "properties.publicNetworkAccess",
+          "equals": "Enabled"
+        }
+      }
+    }
+  },
+  "parameters": {}
+}

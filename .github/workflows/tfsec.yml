@@ -1,0 +1,22 @@
+name: TFSEC Scan
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  tfsec:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run TFSEC
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          soft_fail: false

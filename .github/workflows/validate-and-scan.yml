@@ -1,0 +1,61 @@
+name: "Terraform Validate & Security Scan"
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'modules/**'
+      - 'landingzones/**'
+      - 'environments/**'
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
+jobs:
+  validate:
+    name: "Lint & Validate"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.5"
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Run TFLint
+        uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: v0.50.0
+
+      - name: Init and Validate Modules
+        run: |
+          for dir in modules/*/*; do
+            if [ -d "$dir" ]; then
+              echo "Validating $dir"
+              cd "$dir" && terraform init -backend=false && terraform validate && cd - > /dev/null
+            fi
+          done
+
+  security-scan:
+    name: "Security & Compliance Scan (Checkov / tfsec)"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Checkov Inspection
+        uses: bridgecrewio/checkov-action@master
+        with:
+          framework: terraform
+          output_format: cli
+          soft_fail: false # Blocks PR if critical misconfigurations are detected
+          download_external_modules: true

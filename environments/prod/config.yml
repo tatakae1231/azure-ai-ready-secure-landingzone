@@ -1,0 +1,22 @@
+# environments/prod/config.yml
+environment: "prod"
+location:
+  primary: "eastus2" #edit yours
+  secondary: "westus3" #edit yours
+
+networking:
+  hub_vnet_cidr: "10.100.0.0/16"
+  ai_spoke_vnet_cidr: "10.101.0.0/16"
+  enable_ddos_protection: true
+
+azure_ai_services:
+  openai_sku: "S0"
+  enable_content_safety: true
+  public_network_access: "Disabled"
+  allowed_ip_ranges: 
+    - "192.168.100.0/24" # Corporate ExpressRoute / VPN Gateway
+
+security:
+  key_vault_purge_protection: true
+  log_retention_days: 365
+  defender_for_cloud: "Enabled"

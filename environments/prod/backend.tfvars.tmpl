@@ -1,0 +1,5 @@
+# environments/prod/backend.tfvars.tmpl
+resource_group_name  = "rg-<org>-tfstate-<environment>-01"
+storage_account_name = "st<org>tfstate<environment>01" # Globally unique, lowercase, alphanumeric only
+container_name       = "tfstate-ai-landingzone"
+key                  = "<environment>.ai-slz.tfstate"

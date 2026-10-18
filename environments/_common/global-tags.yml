@@ -1,0 +1,6 @@
+# environments/_common/global-tags.yml
+tags:
+  Organization: "Enterprise-AI-CoE" --edit yours
+  CostCenter: "CC-9942-AI" --edit yours
+  ComplianceFramework: "ISO27001-SOC2"
+  Automation: "Terraform-CAF-SLZ" --edit yours

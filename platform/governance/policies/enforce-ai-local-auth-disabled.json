@@ -1,0 +1,19 @@
+{
+  "mode": "Indexed",
+  "policyRule": {
+    "if": {
+      "field": "type",
+      "equals": "Microsoft.CognitiveServices/accounts"
+    },
+    "then": {
+      "effect": "Deny",
+      "details": {
+        "evaluation": {
+          "field": "properties.disableLocalAuth",
+          "notEquals": true
+        }
+      }
+    }
+  },
+  "parameters": {}
+}
